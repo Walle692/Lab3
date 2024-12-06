@@ -125,6 +125,18 @@ class binarySearchTree:
             node = node.leftChild
         return node
 
+    def inorder(self):
+        if self.root is not None:
+            self._inorder(self.root)
+        else:
+            return None
+
+    def _inorder(self, node):
+        if node.leftChild is not None:
+            self._inorder(node.leftChild)
+        if node.rightChild is not None:
+            self._inorder(node.rightChild)
+
     def printTree(self, node=None, pos=None, graph=None, labels=None):
         if node is None:
             node = self.root
