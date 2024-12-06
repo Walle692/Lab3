@@ -11,19 +11,41 @@ class binarySearchTree:
         new_node = Node(data, key)
         if self.root is None:
             self.root = new_node
-
-        if self.root.key > key:
-            if self.root.leftChild is None:
-                self.root.leftChild = new_node
-                new_node.parent = self.root
-            else:
-                self.root.leftChild.insert(data, key)
         else:
-            if self.root.rightChild is None:
-                self.root.rightChild = new_node
-                new_node.parent = self.root
+            self._recursiveInsert(self.root, new_node)
+
+    def _recursiveInsert(self, node, new_node):
+        if node.key > new_node.key:
+            if node.leftChild is None:
+                node.leftChild = new_node
+                new_node.parent = node
             else:
-                self.root.rightChild.insert(data, key)
+                self._recursiveInsert(node.leftChild, new_node)
+        else:
+            if node.rightChild is None:
+                node.rightChild = new_node
+            else:
+                self._recursiveInsert(node.rightChild, new_node)
+
+    def search(self, key):
+        if self.root is None:
+            return False
+        else:
+            return self._recursiveSearch(self.root, key)
+
+    def _recursiveSearch(self, node, key):
+        if node.key == key:
+            return True
+        elif node.key > key:
+            if node.leftChild is None:
+                return False
+            else:
+                return self._recursiveSearch(node.leftChild, key)
+        else:
+            if node.rightChild is None:
+                return False
+            else:
+                return self._recursiveSearch(node.rightChild, key)
 
 class Node:
     def __init__(self, data=None, key=None):
