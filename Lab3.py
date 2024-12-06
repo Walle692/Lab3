@@ -3,6 +3,10 @@
 # Albin Täljsten, Linus Fridlund, Walter Wimmercranz
 #
 
+import matplotlib.pyplot as plt
+import networkx as nx
+
+
 class binarySearchTree:
     def __init__(self):
         self.root = None
@@ -121,8 +125,33 @@ class binarySearchTree:
             node = node.leftChild
         return node
 
-    def printTree(self):
-        
+    def printTree(self, node=None, pos=None, graph=None, labels=None):
+        if node is None:
+            node = self.root
+            pos = {}
+            graph = nx.DiGraph()
+            labels = {}
+
+        if node is not None:
+            # Add the current node
+            graph.add_node(node.key)
+            labels[node.key] = f'{node.key}'
+
+            if node.leftChild is not None:
+                graph.add_edge(node.key, node.leftChild.key)
+                self.printTree(node.leftChild, pos, graph, labels)
+
+            if node.rightChild is not None:
+                graph.add_edge(node.key, node.rightChild.key)
+                self.printTree(node.rightChild, pos, graph, labels)
+
+        if node == self.root:
+            pos = nx.spring_layout(graph)
+            plt.figure()
+            nx.draw(graph, pos, labels=labels, with_labels=True, arrows=False)
+            plt.show()
+
+
 
 
 class Node:
@@ -136,14 +165,7 @@ class Node:
         self.size = 1
 
 def main():
-    tree = binarySearchTree()
-    tree.insert(10, 10)
-    tree.insert(5, 5)
-    tree.insert(15, 6)
-    tree.insert(2, 2)
-    tree.insert(1,20)
-    tree.insert(11, 11)
-    tree.printTree()
+    
 
 
 main()
