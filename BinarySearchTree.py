@@ -1,8 +1,20 @@
-import Node
+from Node import Node
 
 class BST:
     def __init__(self):
         self.root = None
+
+    def createPerfectBST(self, nodeArr):
+
+    def getroot(self):
+        return self.root
+
+    def updatesize(self, node):
+        if node is not None:
+            node.update()
+            while node.parent is not None:
+                node = node.parent
+                node.update()
 
     def insert(self, node):
         root = self.root
@@ -20,6 +32,7 @@ class BST:
             parent.left = node
         else:
             parent.right = node
+        self.updatesize(node)
 
     def delete(self, node):
         if node.left is None:
@@ -35,6 +48,8 @@ class BST:
             self.transplant(node, replacement_node)
             replacement_node.left = node.left
             replacement_node.left.parent = replacement_node
+            self.updatesize(replacement_node)
+        self.updatesize(node)
 
     def transplant(self, to_be_replaced_node, replacement_node):
         if to_be_replaced_node.parent is None:
@@ -45,11 +60,19 @@ class BST:
             to_be_replaced_node.parent.right = replacement_node
         if replacement_node is not None:
             replacement_node.parent = to_be_replaced_node.parent
+        to_be_replaced_node.update()
+        self.updatesize(to_be_replaced_node)
 
 
     def inorder(self, node):
         if node is not None:
-            return self.inorder(node.left) + [node] + self.inorder(node.right)
+            if node.left is not None:
+                if node.right is not None:
+                    return self.inorder(node.left) + [node] + self.inorder(node.right)
+                return  self.inorder(node.left) + [node]
+            if node.right is not None:
+                return [node] + self.inorder(node.right)
+            return [node]
 
     def search(self, root, key):
         if root is None or key == root.key:
