@@ -4,7 +4,25 @@ class BST:
     def __init__(self):
         self.root = None
 
-    def createPerfectBST(self, nodeArr):
+    #todo
+    #fixa PerfectBST
+    #fixa conditioncheck i insertion
+    #fixa så att size blir rätt
+    #fixa insert av nytt perfectBST
+
+    def createPerfectBST(self, nodeList):
+        if len(nodeList) == 0:
+            return None
+        mid = len(nodeList) // 2
+        root = nodeList[mid]
+        root.left = self.createPerfectBST(nodeList[:mid-1])
+        root.right = self.createPerfectBST(nodeList[mid+1:])
+        if root.left is not None:
+            root.left.parent = root
+        if root.right is not None:
+            root.right.parent = root
+        root.update()
+        return root
 
     def getroot(self):
         return self.root

@@ -2,28 +2,26 @@
 # Lab 3, D0012E
 # Albin Täljsten, Linus Fridlund, Walter Wimmercranz
 #
+from random import randint
+
 from BinarySearchTree import BST
 from Node import Node
 
+def nodegenerator(tree):
+    for i in range(0,100):
+        newNode = Node( randint(0,4000),i)
+        tree.insert(newNode)
+    return tree
 
 def main():
     tree = BST()
-    testnode = Node(3, 11)
-    tree.insert(testnode)
-    tree.insert(Node("senap", 10))
-    print(tree.getroot().size)
-    tree.insert(Node("kanin", 12))
-    print(tree.getroot().size)
-    tree.insert(Node("katt", 9))
-    print(tree.getroot().size)
-    linus_node = Node("linus", 8)
-    tree.insert(linus_node)
-    print(tree.inorder(tree.getroot()))
-    print(tree.getroot().size)
-    tree.delete(testnode)
-    print(tree.inorder(tree.getroot()))
-    print(tree.getroot().size)
-    
+    nodegenerator(tree)
+    #print(type(tree.inorder(tree.getroot())))
+    for Node in tree.inorder(tree.getroot()):
+        print(Node.key)
+    #print(tree.createPerfectBST(tree.inorder(tree.getroot())).size)
+    perfectroot = tree.createPerfectBST(tree.inorder(tree.getroot()))
+    print(perfectroot.key, perfectroot.left.key, perfectroot.right.key)
 
 
 main()
