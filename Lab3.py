@@ -14,9 +14,10 @@ def nodegenerator(tree):
     return tree
 
 def main():
-    tree = BST(1)
+    tree = BST(0.5)
     nodegenerator(tree)
     tree.leveltraverse(tree.getroot())
+    print(tree.inorder(tree.getroot()))
     #print(type(tree.inorder(tree.getroot())))
     #for Node in tree.inorder(tree.getroot()):
         #print(Node.key)

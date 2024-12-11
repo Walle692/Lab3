@@ -42,18 +42,6 @@ class BST:
         if node is not None:
             node.update()
             while node.parent is not None:
-                print(node.key)
-                if node.left is not None and node.right is not None:
-                    if node.left.size > self.c * node.right.size:
-                        node = self.insertPerfectBST(node)
-                    elif node.right.size > self.c * node.left.size:
-                        node = self.insertPerfectBST(node)
-                elif node.left is not None:
-                    if node.left.size > 2:
-                        node = self.insertPerfectBST(node)
-                elif node.right is not None:
-                    if node.right.size > 2:
-                        node = self.insertPerfectBST(node)
                 node = node.parent
                 node.update()
 
@@ -147,18 +135,3 @@ class BST:
                 parent = root.parent
             return parent
 
-    def leveltraverse(self, root):
-        if root is None:
-            return []
-        queue = [(root,0)]
-        while len(queue) > 0:
-            print(queue[0][0].key, queue[0][1],  end=" ")
-            tuple = queue.pop(0)
-            node = tuple[0]
-            level = tuple[1] + 1
-            if node.left is not None:
-                print(node.left, " left ")
-                queue.append((node.left, level))
-            if node.right is not None:
-                queue.append((node.right, level))
-                print(node.right, " right ")
