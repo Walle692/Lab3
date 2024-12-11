@@ -9,7 +9,8 @@ class BST:
         if len(nodeList) == 0:
             return None
         mid = len(nodeList) // 2
-        root = nodeList[mid]
+        original = nodeList[mid]
+        root = Node(original.data, original.key)
         root.left = self.createPerfectBST(nodeList[:mid])
         root.right = self.createPerfectBST(nodeList[mid+1:])
         if root.left is not None:
@@ -19,8 +20,8 @@ class BST:
         root.update()
         return root
 
+    #
     def insertPerfectBST(self, root):
-        print("insertPerfectBST")
         newRoot = self.createPerfectBST(self.inorder(root))
         if root.parent is None:
             self.root = newRoot
@@ -33,33 +34,39 @@ class BST:
                 root.parent.right = newRoot
         return newRoot
 
-
+    #returns root of tree
     def getroot(self):
         return self.root
 
+    #update size for node and its parents
     def updatesize(self, node):
-        print("updatesize")
         if node is not None:
             node.update()
+            if self.updatechecker(node):
+                node = self.insertPerfectBST(node)
             while node.parent is not None:
-                print(node.key)
-                if node.left is not None and node.right is not None:
-                    if node.left.size > self.c * node.right.size:
-                        node = self.insertPerfectBST(node)
-                    elif node.right.size > self.c * node.left.size:
-                        node = self.insertPerfectBST(node)
-                elif node.left is not None:
-                    if node.left.size > 2:
-                        node = self.insertPerfectBST(node)
-                elif node.right is not None:
-                    if node.right.size > 2:
-                        node = self.insertPerfectBST(node)
                 node = node.parent
+                if self.updatechecker(node):
+                    node = self.insertPerfectBST(node)
                 node.update()
 
+    #check if size conditions, are fulfilled
+    def updatechecker(self, node):
+        if node.left is not None and node.right is not None:
+            if node.left.size > self.c * node.right.size:
+                return True
+            elif node.right.size > self.c * node.left.size:
+                return True
+        elif node.left is not None and node.right is None:
+            if node.left.size > 1:
+                return True
+        elif node.right is not None and node.left is None:
+            if node.right.size > 1:
+                return True
+        return False
 
+    #insert node
     def insert(self, node):
-        print("insert", node.key)
         root = self.root
         parent = None
         while root is not None:
@@ -77,8 +84,8 @@ class BST:
             parent.right = node
         self.updatesize(node)
 
+    #delete node
     def delete(self, node):
-        print("delete")
         if node.left is None:
             self.transplant(node, node.right)
         elif node.right is None:
@@ -95,8 +102,8 @@ class BST:
             self.updatesize(replacement_node)
         self.updatesize(node)
 
+    #replace node with another node
     def transplant(self, to_be_replaced_node, replacement_node):
-        print("transplant")
         if to_be_replaced_node.parent is None:
             self.root = replacement_node
         elif to_be_replaced_node == to_be_replaced_node.parent.left:
@@ -108,7 +115,7 @@ class BST:
         to_be_replaced_node.update()
         self.updatesize(to_be_replaced_node)
 
-
+    #Create list of Nodes, from smallest key to largest
     def inorder(self, node):
         if node is not None:
             if node.left is not None:
@@ -119,6 +126,7 @@ class BST:
                 return [node] + self.inorder(node.right)
             return [node]
 
+    #search for key, from selected root
     def search(self, root, key):
         if root is None or key == root.key:
             return root
@@ -127,16 +135,19 @@ class BST:
         else:
             return self.search(root.right, key)
 
+    # look for minimum from inputed root by going as far left as possible
     def minimum(self, root):
         while root.left is not None:
             root = root.left
         return root
 
+    #look for maximum from inputed root by going as far right as possible
     def maximum(self, root):
         while root.right is not None:
             root = root.right
         return root
 
+    #get the node with the closest key to input node
     def successor(self, root):
         if root.right is not None:
             return self.minimum(root.right)
@@ -148,17 +159,15 @@ class BST:
             return parent
 
     def leveltraverse(self, root):
-        if root is None:
+        if root is None:                                                    #Breadth search first
             return []
-        queue = [(root,0)]
+        queue = [(root,0)]                                                  #Create queue
         while len(queue) > 0:
-            print(queue[0][0].key, queue[0][1],  end=" ")
+            print("key :" ,queue[0][0].key, "level :", queue[0][1])
             tuple = queue.pop(0)
-            node = tuple[0]
+            node = tuple[0]                                                 #get current node
             level = tuple[1] + 1
             if node.left is not None:
-                print(node.left, " left ")
-                queue.append((node.left, level))
+                queue.append((node.left, level))                            #add node:s children to queue
             if node.right is not None:
                 queue.append((node.right, level))
-                print(node.right, " right ")

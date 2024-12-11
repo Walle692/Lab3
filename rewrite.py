@@ -1,3 +1,5 @@
+from networkx.generators.classic import balanced_tree
+
 from Node import Node
 
 class BST:
@@ -5,18 +7,13 @@ class BST:
         self.root = None
         self.c = c
 
-    def createPerfectBST(self, nodeList):
-        if len(nodeList) == 0:
+    def createNewBst(self, inorderlist):
+        if len(inorderlist) == 0:
             return None
-        mid = len(nodeList) // 2
-        root = nodeList[mid]
-        root.left = self.createPerfectBST(nodeList[:mid])
-        root.right = self.createPerfectBST(nodeList[mid+1:])
-        if root.left is not None:
-            root.left.parent = root
-        if root.right is not None:
-            root.right.parent = root
-        root.update()
+        mid = len(inorderlist) // 2
+        root = inorderlist[mid]
+        root.left = self.createNewBst(inorderlist[:mid])
+        root.right = self.createNewBst(inorderlist[mid+1:])
         return root
 
     def insertPerfectBST(self, root):
