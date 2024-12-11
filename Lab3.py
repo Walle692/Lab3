@@ -18,8 +18,8 @@ def main():
     nodegenerator(tree)
     print(tree.getroot().size)
     tree.leveltraverse(tree.getroot())
-    for node in tree.inorder(tree.getroot()):
-        print(node.key)
+    #for node in tree.inorder(tree.getroot()):
+    #    print(node.key)
     #print(type(tree.inorder(tree.getroot())))
     #for Node in tree.inorder(tree.getroot()):
         #print(Node.key)
