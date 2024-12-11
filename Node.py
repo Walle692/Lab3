@@ -7,14 +7,14 @@ class Node:
         self.right = None
         self.parent = None
         self.c = 1
-        self.size = self.c
+        self.size = 1
 
     def update(self):
         if self.left is not None and self.right is not None:
-            self.size = self.c*( self.left.size + self.right.size + 1)
+            self.size = ( self.left.size + self.right.size + 1)
         elif self.left is not None and self.right is None:
-            self.size = self.c*(self.left.size + 1)
+            self.size = (self.left.size + 1)
         elif self.left is None and self.right is not None:
-            self.size = self.c*(self.right.size + 1)
+            self.size = (self.right.size + 1)
         else:
-            self.size = self.c
+            self.size = 1
