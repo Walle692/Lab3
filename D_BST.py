@@ -1,9 +1,9 @@
 from Node import Node
 
-class BST:
-    def __init__(self):
+class D:
+    def __init__(self, c):
         self.root = None
-        self.c = 1
+        self.c = c
 
     #create a perfect bst recursivley
     def createPerfectBST(self, nodeList):
@@ -43,12 +43,12 @@ class BST:
     def updatesize(self, node):
         if node is not None:
             node.update()                                           #update node size
-            #if self.updatechecker(node):                            #check if balancing is needed
-            #    node = self.insertPerfectBST(node)
+            if self.updatechecker(node):                            #check if balancing is needed
+                node = self.insertPerfectBST(node)
             while node.parent is not None:                          #update size for parents and check if balancing is needed
                 node = node.parent
-            #    if self.updatechecker(node):
-            #        node = self.insertPerfectBST(node)
+                if self.updatechecker(node):
+                    node = self.insertPerfectBST(node)
                 node.update()
 
     #check if size conditions, are fulfilled
