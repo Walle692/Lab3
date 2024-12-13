@@ -38,20 +38,6 @@ def bst_tester(tree, nodes):
     search_time = time.time() - start_time
     return search_time, insert_time
 
-def bst_tester2(tree, nodes):
-    tree, nodes = superrandomnodegenerator(tree, nodes)
-    start_time = time.time()
-    tree.search(tree.getroot(), nodes)
-    search_time = time.time() - start_time
-    node1 = Node("banana", nodes + 1)
-    node2 = Node("apple", nodes + 2)
-    node3 = Node("pear", nodes + 3)
-    start_time = time.time()
-    tree.insert(node1)
-    tree.insert(node2)
-    tree.insert(node3)
-    insert_time = time.time() - start_time
-    return search_time, insert_time
 
 
 def main():
