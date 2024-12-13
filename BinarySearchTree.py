@@ -3,37 +3,7 @@ from Node import Node
 class BST:
     def __init__(self):
         self.root = None
-        self.c = 1
 
-    #create a perfect bst recursivley
-    def createPerfectBST(self, nodeList):
-        if len(nodeList) == 0:                                      #base case
-            return None
-        mid = len(nodeList) // 2                                    #middle of list
-        original = nodeList[mid]                                    #get node from middle of list
-        root = Node(original.data, original.key)                    #copy node, needs to be done, otherwise cycles can occur
-        root.left = self.createPerfectBST(nodeList[:mid])           #recursion to get left and right child
-        root.right = self.createPerfectBST(nodeList[mid+1:])
-        if root.left is not None:                                   #set correct parent relation for children
-            root.left.parent = root
-        if root.right is not None:
-            root.right.parent = root
-        root.update()                                               #update root size
-        return root
-
-    #create a perfect bst from inputed root node
-    def insertPerfectBST(self, root):
-        newRoot = self.createPerfectBST(self.inorder(root))         #inorderwalk, then create perfect BST
-        if root.parent is None:                                     #in case we are replacing root with perfect tree
-            self.root = newRoot
-            newRoot.parent = None
-        else:
-            newRoot.parent = root.parent                            #set our new subtrees parent
-            if newRoot == root.parent.left:                         #set parents relation to new tree
-                root.parent.left = newRoot
-            else:
-                root.parent.right = newRoot
-        return newRoot
 
     #returns root of tree
     def getroot(self):
@@ -43,28 +13,10 @@ class BST:
     def updatesize(self, node):
         if node is not None:
             node.update()                                           #update node size
-            #if self.updatechecker(node):                            #check if balancing is needed
-            #    node = self.insertPerfectBST(node)
             while node.parent is not None:                          #update size for parents and check if balancing is needed
                 node = node.parent
-            #    if self.updatechecker(node):
-            #        node = self.insertPerfectBST(node)
                 node.update()
 
-    #check if size conditions, are fulfilled
-    def updatechecker(self, node):
-        if node.left is not None and node.right is not None:        #check conditions for balancing
-            if node.left.size > self.c * node.right.size:
-                return True
-            elif node.right.size > self.c * node.left.size:
-                return True
-        elif node.left is not None and node.right is None:
-            if node.left.size > 1:
-                return True
-        elif node.right is not None and node.left is None:
-            if node.right.size > 1:
-                return True
-        return False
 
     #insert node
     def insert(self, node):
